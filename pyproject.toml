@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "gmail-api-client"
+version = "0.1.0"
+description = "A simple Python client for Gmail API automation"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+authors = [
+    { name = "Asheesh Singh" }
+]
+
+dependencies = [
+    "google-api-python-client>=2.0.0",
+    "google-auth-httplib2>=0.2.0",
+    "google-auth-oauthlib>=1.0.0",
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+
+[tool.setuptools.packages.find]
+where = ["src"]

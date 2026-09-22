@@ -1,0 +1,7 @@
+.venv
+token.json
+credentials.json
+dist
+**.egg-info
+poetry.lock
+**__pycache__**
