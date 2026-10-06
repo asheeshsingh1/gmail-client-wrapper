@@ -1,6 +1,8 @@
 import base64
 import os
 from email.message import EmailMessage
+from email import policy
+from html import escape
 from typing import Optional
 
 from google.auth.transport.requests import Request
@@ -81,15 +83,32 @@ class GmailClient:
     ) -> EmailMessage:
         """Create an email message."""
 
-        message = EmailMessage()
-
-        message.set_content(body)
+        message = EmailMessage(
+            policy=policy.SMTP
+        )
 
         if sender:
             message["From"] = sender
 
         message["To"] = to
         message["Subject"] = subject
+
+        # Plain-text fallback
+        message.set_content(body)
+
+        # HTML version
+        html_body = f"""
+            <html>
+                <body>
+                    <p>{escape(body)}</p>
+                </body>
+            </html>
+        """
+
+        message.add_alternative(
+            html_body,
+            subtype="html",
+        )
 
         return message
 
