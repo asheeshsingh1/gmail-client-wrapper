@@ -34,7 +34,21 @@ def test_create_message():
 
     assert message["To"] == "recipient@example.com"
     assert message["Subject"] == "Test Subject"
-    assert message.get_content().strip() == "Test Body"
+
+    assert message.get_content_type() == "multipart/alternative"
+
+    parts = message.get_payload()
+
+    assert len(parts) == 2
+
+    plain_part = parts[0]
+    html_part = parts[1]
+
+    assert plain_part.get_content_type() == "text/plain"
+    assert html_part.get_content_type() == "text/html"
+
+    assert plain_part.get_content().strip() == "Test Body"
+    assert "Test Body" in html_part.get_content()
 
 
 def test_create_message_with_sender():
